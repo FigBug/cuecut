@@ -14,7 +14,6 @@
 }
 
 - (id)init;
-- (void)dealloc;
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
 

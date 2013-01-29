@@ -23,10 +23,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[cue release];
-	
-	[super dealloc];
 }
 
 - (NSString *)windowNibName
@@ -132,10 +128,12 @@
 	[open setCanChooseDirectories: NO];
 	[open setResolvesAliases: YES];
 	[open setAllowsMultipleSelection: NO];
+    [open setAllowedFileTypes:[NSArray arrayWithObject: @"mp3"]];
 	
-	if ([open runModalForDirectory: nil file: [mp3FilePath stringValue] types: [NSArray arrayWithObject: @"mp3"]] == NSOKButton)
-	{
-		[mp3FilePath setStringValue: [[open filenames] objectAtIndex: 0]];
+	if ([open runModal] == NSFileHandlingPanelOKButton)
+    {
+        NSURL* url = [[open URLs] objectAtIndex: 0];
+		[mp3FilePath setStringValue: [url path]];
 	}
 }
 
@@ -146,10 +144,12 @@
 	[open setCanChooseDirectories: YES];
 	[open setResolvesAliases: YES];
 	[open setAllowsMultipleSelection: NO];
+    [open setDirectoryURL:[NSURL fileURLWithPath:[outputFilePath stringValue]]];
 	
-	if ([open runModalForDirectory: [outputFilePath stringValue] file: nil types: nil] == NSOKButton)
+    if ([open runModal] == NSFileHandlingPanelOKButton)
 	{
-		[outputFilePath setStringValue: [[open filenames] objectAtIndex: 0]];
+        NSURL* url = [[open URLs] objectAtIndex: 0];
+		[outputFilePath setStringValue: [url path]];
 	}
 }
 
@@ -176,13 +176,13 @@
 		return;
 	}
 	
-	NSTask* task = [[[NSTask alloc] init] autorelease];
+	NSTask* task = [[NSTask alloc] init];
 	[task setLaunchPath: @"/usr/bin/java"];
 	
 	NSArray* args = [NSArray arrayWithObjects: @"-jar", jar, @"--cue", inp, @"--dir", dir, mp3, nil];
 	[task setArguments: args];
 	
-	taskOutputFile = [[self createTmpFile] retain];
+	taskOutputFile = [self createTmpFile];
 	NSFileHandle* taskOutput = [NSFileHandle fileHandleForWritingAtPath:taskOutputFile];
 	
 	[task setStandardOutput: taskOutput];
@@ -209,7 +209,7 @@
 {
 	NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:taskOutputFile];
 	NSData* data = [file readDataToEndOfFile];
-	NSString* str = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease]; 
+	NSString* str = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
 	
 	NSArray* lines = [self getLinesInString:str];
 	
@@ -240,8 +240,7 @@
 	[self taskTimer:nil];
 	[timer invalidate];
 	
-	[[NSFileManager defaultManager] removeFileAtPath:taskOutputFile handler:nil];
-	[taskOutputFile release];
+	[[NSFileManager defaultManager] removeItemAtURL:[NSURL fileURLWithPath:taskOutputFile] error:nil];
 	
 	[mp3FilePath setEnabled: YES];
 	[outputFilePath setEnabled: YES];		
@@ -269,15 +268,15 @@
 	NSString* path = [NSString stringWithCString: tempFile encoding:NSUTF8StringEncoding];
 	
 	NSFileManager* fm = [NSFileManager defaultManager];
-	[fm createFileAtPath:path contents:@"" attributes:nil];
+	[fm createFileAtPath:path contents:[NSData data] attributes:nil];
 	
 	return path;
 }
 
 - (NSArray*)getLinesInString:(NSString*)string
 {
-	unsigned length = [string length];
-	unsigned paraStart = 0, paraEnd = 0, contentsEnd = 0;
+	NSUInteger length = [string length];
+	NSUInteger paraStart = 0, paraEnd = 0, contentsEnd = 0;
 	
 	NSMutableArray *array = [NSMutableArray array];
 	NSRange currentRange;

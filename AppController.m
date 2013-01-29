@@ -18,11 +18,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[super dealloc];
-}
-
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
 {
 	if (!once)
