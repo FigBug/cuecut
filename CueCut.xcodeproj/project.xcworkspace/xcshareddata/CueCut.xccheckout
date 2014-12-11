@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>803BAC64-7AE3-494B-B87E-4A59602F8F18</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CueCut</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4D98654B470C46B5D925571E490DC8BF4F859535</key>
+		<string>https://github.com/FigBug/cuecut.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CueCut.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4D98654B470C46B5D925571E490DC8BF4F859535</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/FigBug/cuecut.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4D98654B470C46B5D925571E490DC8BF4F859535</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4D98654B470C46B5D925571E490DC8BF4F859535</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cuecut</string>
+		</dict>
+	</array>
+</dict>
+</plist>
